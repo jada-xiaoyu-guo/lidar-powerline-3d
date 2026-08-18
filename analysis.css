@@ -1,0 +1,367 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: "微软雅黑", "Microsoft YaHei", Arial, sans-serif;
+    overflow-x: hidden;
+}
+.analysis-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('C326B1834C8662DB0DB4F806C52C3E1F.png') no-repeat center center/cover;
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    filter: brightness(0.92) blur(0.5px);
+}
+.analysis-root {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    padding: 0 0 40px 0;
+}
+
+/* 顶部深蓝色导航栏 */
+.analysis-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 68px;
+    background: linear-gradient(90deg, #162447 80%, #1f4068 100%);
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 2px 16px #00bfff33, 0 4px 24px #0ff2;
+    margin-bottom: 18px;
+}
+.analysis-title {
+    color: #fff;
+    font-size: 2.1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 0;
+    text-shadow: 0 2px 8px #0ff4;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+.back-btn {
+    background: linear-gradient(90deg, #1a6fa7 60%, #00bfff 100%);
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 10px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 12px #00bfff55;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.back-btn:hover {
+    background: linear-gradient(90deg, #00bfff 60%, #1a6fa7 100%);
+    box-shadow: 0 4px 24px #00bfff99;
+}
+
+/* KPI卡片横向铺满+发光 */
+.kpi-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 32px;
+    margin: 32px 48px 18px 48px;
+}
+.kpi-card {
+    flex: 1 1 0;
+    background: rgba(0, 32, 64, 0.82);
+    border-radius: 18px;
+    box-shadow: 0 2px 18px #00bfff55, 0 0 24px #3ecbff44 inset;
+    padding: 0;
+    min-width: 160px;
+    min-height: 200px;
+    position: relative;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 让内容在卡片内垂直居中 */
+    align-items: stretch;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.kpi-card:hover {
+    box-shadow: 0 4px 32px #00bfff99, 0 0 32px #3ecbff66 inset;
+    transform: translateY(-2px) scale(1.03);
+}
+.kpi-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    z-index: 2;
+}
+.kpi-icon {
+    font-size: 2.5rem;
+    color: #00eaff;
+    text-shadow: 0 0 16px #00bfff88, 0 2px 10px #0ff4;
+    margin: 0;
+}
+.kpi-label {
+    font-size: 1.45rem;
+    font-weight: bold;
+    color: #fff;
+    opacity: 0.92;
+    margin: 0;
+    letter-spacing: 1px;
+}
+.kpi-center {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;    /* 保证底线对齐 */
+    justify-content: center; 
+    padding-top: 90px; /* 水平居中 */
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: relative; /* 关键：改为相对定位 */
+    z-index: 1;
+    pointer-events: none;
+}
+.kpi-center > span {
+    pointer-events: auto;
+}
+.kpi-value {
+    font-size: 3.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 0;
+}
+.kpi-unit {
+    font-size: 2rem;
+    opacity: 0.7;
+    color: #fff;
+    margin-left: 14px;
+    line-height: 1;
+}
+/* 图表区布局+发光 */
+.charts-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 0 48px;
+}
+.charts-left, .charts-right {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    flex: 1;
+}
+.chart-card {
+    background: rgba(0, 32, 64, 0.72);
+    border-radius: 18px;
+    box-shadow: 0 2px 18px #00bfff33, 0 0 24px #3ecbff22 inset;
+    padding: 18px 18px 8px 18px;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s;
+}
+.chart-card:hover {
+    box-shadow: 0 4px 32px #00bfff77, 0 0 32px #3ecbff44 inset;
+}
+.chart-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    opacity: 0.92;
+}
+.chart {
+    flex: 1;
+    min-height: 180px;
+    height: 240px;
+    width: 100%;
+    background: transparent;
+}
+
+/* 响应式优化 */
+@media (max-width: 1200px) {
+    .charts-row {
+        flex-direction: column;
+        gap: 18px;
+    }
+    .charts-left, .charts-right {
+        flex-direction: row;
+        gap: 18px;
+    }
+    .chart-card {
+        min-width: 220px;
+        min-height: 180px;
+    }
+    .kpi-row {
+        flex-direction: column;
+        gap: 18px;
+        margin: 18px 8px;
+    }
+}
+@media (max-width: 800px) {
+    .analysis-header, .charts-row {
+        flex-direction: column;
+        padding: 18px 8px;
+        margin: 0 8px;
+    }
+    .kpi-row {
+        flex-direction: column;
+        gap: 12px;
+        margin: 18px 0;
+    }
+}
+
+/* 浅色模式适配 */
+body.light-mode .analysis-header {
+    background: linear-gradient(90deg, #e3f0ff 80%, #cbe6ff 100%);
+    box-shadow: 0 2px 16px #3ecbff33, 0 4px 24px #3ecbff22;
+}
+body.light-mode .analysis-title {
+    color: #1a233a;
+    text-shadow: 0 2px 8px #3ecbff22;
+}
+body.light-mode .back-btn {
+    background: linear-gradient(90deg, #b2e0ff 60%, #3ecbff 100%);
+    color: #1a233a;
+    box-shadow: 0 2px 12px #3ecbff33;
+}
+body.light-mode .back-btn:hover {
+    background: linear-gradient(90deg, #3ecbff 60%, #b2e0ff 100%);
+    box-shadow: 0 4px 24px #3ecbff77;
+}
+body.light-mode .kpi-card {
+    background: rgba(255,255,255,0.92);
+    color: #1a233a;
+    box-shadow: 0 2px 18px #3ecbff33, 0 0 24px #3ecbff22 inset;
+}
+body.light-mode .kpi-icon {
+    color: #3ecbff;
+    text-shadow: 0 0 16px #3ecbff44, 0 2px 10px #3ecbff22;
+}
+body.light-mode .kpi-label {
+    color: #1a233a;
+}
+body.light-mode .kpi-value,
+body.light-mode .kpi-unit {
+    color: #1a233a;
+}
+body.light-mode .chart-card {
+    background: rgba(255,255,255,0.88);
+    box-shadow: 0 2px 18px #3ecbff22, 0 0 24px #3ecbff11 inset;
+}
+body.light-mode .chart-title {
+    color: #1a233a;
+}
+
+/* 新增：风险组合卡片布局 */
+.risk-combo-card {
+    padding: 24px;
+    min-height: 420px; /* 调整高度适配内容 */
+}
+.risk-combo-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+}
+
+/* 左侧：紧急危险物圆形统计框 */
+.emergency-danger-card {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 65% 35%, rgba(0, 234, 255, 0.1), rgba(0, 32, 64, 0.82));
+    border: 2px solid #00eaff;
+    box-shadow: 0 0 24px #00eaff33, 0 0 48px #00eaff11 inset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.emergency-title {
+    color: #00eaff;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+.emergency-value {
+    color: #00eaff;
+    font-size: 3.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 16px #00eaff66;
+}
+.emergency-unit {
+    color: #00eaff;
+    font-size: 1.6rem;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+/* 右侧：风险引擎仪表盘容器 */
+.risk-gauge-container {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.risk-percent {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-top: 8px;
+    opacity: 0.9;
+}
+
+/* 浅色模式适配 */
+body.light-mode .emergency-danger-card {
+    background: radial-gradient(circle at 65% 35%, rgba(62, 203, 255, 0.1), rgba(255, 255, 255, 0.92));
+    border-color: #3ecbff;
+}
+body.light-mode .emergency-title,
+body.light-mode .emergency-value,
+body.light-mode .emergency-unit {
+    color: #3ecbff;
+}
+body.light-mode .risk-percent {
+    color: #1a233a;
+}
+
+/* 危险物框图 */
+#measure-popup {
+    position: absolute;
+    left: 32px;
+    bottom: 32px;
+    z-index: 10001;
+    background: rgba(30,40,60,0.98);
+    color: #fff;
+    padding: 18px 28px 14px 18px;
+    border-radius: 14px;
+    box-shadow: 0 4px 32px #000a;
+    min-width: 260px;
+    font-size: 1.08em;
+    display: none;
+    max-width: 400px;
+}
+#measure-popup span {
+    font-size: 1em;
+}
+#measure-close {
+    cursor: pointer;
+}

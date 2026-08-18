@@ -1,0 +1,184 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  background: url('background.png') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+  /* overflow: hidden;  // ← 删除这行 */
+  overflow: auto;
+  position: relative;
+}
+
+/* 保持你原来的绝对定位和偏移 */
+.login-panel {
+  position: absolute;
+  top: 57%;
+  left: 68%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 320px;
+  max-width: 96vw;
+  max-height: 96vh;
+  background: rgba(255,255,255,0.04);
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #3ecbff22;
+  align-items: stretch;
+  padding: 36px 36px 28px 36px;
+  overflow: auto;
+}
+
+/* 横向排列 label+input 的容器 */
+.input-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 17px;
+  margin-top: 0;
+  gap: 12px;
+}
+
+.login-label {
+  font-size: 1.18em;
+  font-weight: bold;
+  color: #3ecbff;
+  letter-spacing: 3px;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-shadow: 0 2px 12px #3ecbff44, 0 0px 2px #fff;
+  font-family: 'ZCOOL KuaiLe', 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+  user-select: none;
+  min-width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.input-row input {
+  padding: 14px 18px;
+  border: 2px solid #3ecbff;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.18);
+  color: #222;
+  font-size: 1.08em;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin: 0;
+  box-shadow: 0 2px 12px #3ecbff11;
+  flex: 1;
+  min-width: 0;
+}
+
+.input-row input:focus {
+  border-color: #2196f3;
+  box-shadow: 0 4px 16px #3ecbff33;
+}
+
+.login-btn-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  height: 50px;
+}
+
+.custom-login-btn, .custom-register-btn {
+  padding: 14px 0;
+  width: 120px;
+  border: none;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #3ecbff 0%, #66a3ff 100%);
+  color: #fff;
+  font-size: 1.15em;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 2px;
+  box-shadow: 0 6px 18px rgba(62, 203, 255, 0.3);
+  transition: all 0.3s ease;
+  transform: translateY(0);
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.custom-login-btn {
+  left: 79px;
+}
+.custom-register-btn {
+  right: 10px;
+  background: linear-gradient(135deg, #ffffff 0%, #e6f7ff 100%);
+  color: #3ecbff;
+  border: 2px solid #3ecbff;
+  font-weight: 600;
+}
+.custom-login-btn:hover {
+  background: linear-gradient(135deg, #2196f3 0%, #4d88ff 100%);
+  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.4);
+  transform: translateY(-2px);
+}
+.custom-register-btn:hover {
+  background: linear-gradient(135deg, #c7e0ff 0%, #c7e0ff 100%);
+  color:  #3ecbff;
+  border-color: #2196f3;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+
+}
+#login-error {
+  color: #ff3333;
+  font-size: 0.98em;
+  min-height: 20px;
+  text-align: left;
+  margin-top: 2px;
+  padding-left: 2px;
+}
+
+/* 响应式：小屏幕下自动缩放和适当移动 */
+@media (max-width: 600px), (max-height: 500px) {
+  .login-panel {
+    min-width: 0;
+    width: 98vw;
+    max-width: 98vw;
+    padding: 14px 2vw 14px 2vw;
+    border-radius: 10px;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .input-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .login-label {
+    text-align: left;
+    min-width: 0;
+    margin-bottom: 2px;
+  }
+  .login-btn-row {
+    flex-direction: column;
+    height: auto;
+    gap: 10px;
+    position: static;
+  }
+  .custom-login-btn, .custom-register-btn {
+    position: static;
+    width: 100%;
+    margin-top: 10px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

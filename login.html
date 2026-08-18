@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>登录 - 电力线可视化</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="login-panel">
+  <form autocomplete="off" onsubmit="return false;">
+    <div class="input-row">
+      <label for="username" class="login-label username-label">账号</label>
+      <input type="text" id="username" autocomplete="off" placeholder="请输入账号" />
+    </div>
+    <div class="input-row">
+      <label for="password" class="login-label password-label">密码</label>
+      <input type="password" id="password" autocomplete="off" placeholder="请输入密码" />
+    </div>
+    <div id="login-error"></div>
+    <div class="login-btn-row custom-btn-row">
+  <button id="login-btn" type="button" class="custom-login-btn">
+  <span class="btn-icon">
+    <!-- 登录图标（可用SVG） -->
+    <svg viewBox="0 0 20 20" fill="none" width="20" height="20">
+      <circle cx="10" cy="7" r="4.5" stroke="#fff" stroke-width="1.5" fill="none"/>
+      <path d="M3.5 17c0-3.5 13-3.5 13 0" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </svg>
+  </span>
+  登录
+</button>
+<button id="register-btn" type="button" class="custom-register-btn">
+  <span class="btn-icon">
+    <!-- 注册图标（可用SVG） -->
+    <svg viewBox="0 0 20 20" fill="none" width="20" height="20">
+      <circle cx="10" cy="7" r="4.5" stroke="#3ecbff" stroke-width="1.5" fill="none"/>
+      <path d="M10 12v4M8 16h4" stroke="#3ecbff" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </span>
+  注册
+</button>
+  </form>
+</div>
+    <div id="login-error"></div>
+  </div>
+  <script src="login.js"></script>
+</body>
+</html>

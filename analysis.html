@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>数据分析</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="analysis.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module">
+  
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
+    // 其他依赖Three.js的代码需放在此模块作用域内或通过全局暴露
+</script>
+</head>
+<body>
+    <div class="analysis-bg"></div>
+    <div class="analysis-root">
+        <!-- 顶部导航栏 -->
+        <div class="analysis-header">
+            <div class="nav-left">
+                <span class="analysis-title">
+                    <i class="fa fa-bar-chart"></i> 数据分析
+                </span>
+            </div>
+            <div class="nav-right">
+                <button class="back-btn" onclick="window.location.href='index.html'">
+                    <i class="fa fa-home"></i> 返回主页
+                </button>
+            </div>
+        </div>
+        <!-- KPI板块 -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-icon"><i class="fa fa-arrows-h"></i></span>
+                    <span class="kpi-label">平均高度</span>
+                </div>
+                <div class="kpi-center">
+                    <span class="kpi-value" id="avg-length">--</span>
+                    <span class="kpi-unit">米</span>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-icon"><i class="fa fa-long-arrow-down"></i></span>
+                    <span class="kpi-label">可疑危险物数量</span>
+                </div>
+                <div class="kpi-center">
+                    <span class="kpi-value" id="min-height">--</span>
+                    <span class="kpi-unit">个</span>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-icon"><i class="fa fa-ellipsis-h"></i></span>
+                    <span class="kpi-label">平均弧垂度</span>
+                </div>
+                <div class="kpi-center">
+                    <span class="kpi-value" id="avg-sag">--</span>
+                    <span class="kpi-unit">米</span>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-icon"><i class="fa fa-bolt"></i></span>
+                    <span class="kpi-label">平均张力</span>
+                </div>
+                <div class="kpi-center">
+                    <span class="kpi-value" id="avg-tension">--</span>
+                    <span class="kpi-unit">kN</span>
+                </div>
+            </div>
+        </div>
+        <!-- 图表区 -->
+        <div class="charts-row">
+            <div class="charts-left">
+                <div class="chart-card" style="min-height: 445px;"> <!-- 与右侧组合卡片高度一致 -->
+                    <div class="chart-title">区域电力线电力塔数量统计</div>
+                    <div id="region-bar-line" class="chart"></div>
+                </div>
+                <div class="chart-card" style="height: 420px;">
+        <div class="chart-title">危险物类型分布图</div>
+        <div id="heatmap-chart" class="chart" style="height: calc(100% - 40px);"></div>
+    </div>
+            </div>
+            <div class="charts-right">
+                <!-- 紧急危险物统计 + 风险引擎组合卡片 -->
+                <div class="chart-card risk-combo-card">
+                    <div class="chart-title risk-gauge-title">风险引擎图</div>
+                    <div class="risk-combo-container">
+                        <!-- 左侧：紧急危险物数量（圆形框） -->
+                        <div class="emergency-danger-card">
+                            <div class="emergency-title">需处理危险物数量</div>
+                            <div class="emergency-value" id="emergency-danger-count">--</div>
+                            <div class="emergency-unit">个</div>
+                        </div>
+                        <!-- 右侧：风险引擎仪表盘 -->
+                        <div class="risk-gauge-container">
+                            <div id="risk-gauge" class="chart" style="height: 280px;"></div>
+                            <div class="risk-percent" id="risk-percent">风险值：--%</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 危险物数量统计图 -->
+                <div class="chart-card" style="height: 420px;">
+                    <div class="chart-title">危险物数量统计图</div>
+                    <div id="line-chart" class="chart" style="height: calc(100% - 40px);"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 新增：弧垂度热力分布图 -->
+        <div class="chart-card" style="margin: 32px auto 0 auto; width: 90%; min-width: 900px; max-width: 1600px;">
+            <div class="chart-title">电力线弧垂度热力分布图</div>
+            <div id="sag-heatmap-chart" class="chart" style="height: 340px; width: 100%;"></div>
+        </div>
+    </div>
+    <script type="module" src="analysis.js"></script>
+    <div id="analysis-loading" style="display:none;text-align:center;padding:32px 0;position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:9999;background:rgba(0,0,0,0.12);">
+        <i class="fa fa-spinner fa-spin" style="font-size:2em;color:#2196f3;"></i>
+        <div style="margin-top:12px;color:#2196f3;">正在统计数据，请稍候...</div>
+    </div>  
+</body>
+</html>

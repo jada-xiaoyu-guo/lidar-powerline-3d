@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <meta charset="utf-8">
+    <title>智绘线云</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=">
+    <!-- 可选：引入icon库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/docx@8.3.0/build/index.umd.js"></script>
+    <!-- 新增：添加 Import Map 来解析 'three' 模块 -->
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "./js/libs/three.module.js"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div class="bg-image"></div>
+<div class="layout-root">
+    <!-- 左侧菜单栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img id="logo-img" src="white-logo.png" alt="logo" style="width:48px;height:48px;border-radius:12px;margin-right:10px;transition:all 0.2s;">
+            <span>LiDAR平台</span>
+        </div>
+        <nav class="menu">
+            <div class="menu-section">
+                <div class="menu-title"><i class="fa fa-cube"></i> 场景操作</div>
+                <ul>
+                    <li class="menu-item active" data-page="overview" id="menu-overview"><i class="fa fa-globe"></i> 全景浏览</li>
+                   <li class="menu-item" id="menu-view" style="position:relative;">
+    <i class="fa fa-eye"></i> 视角切换
+    <i class="fa fa-angle-down" id="menu-view-arrow" style="position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#87CEEB;"></i>
+  
+                        <!-- 子菜单使用view-submenu类名，初始隐藏 -->
+                        <div class="view-submenu" id="view-submenu" style="display:none;">
+                            <div class="view-btn" data-view="god" id="menu-god"><i class="fa fa-street-view"></i> 上帝视角</div>
+                            <div class="view-btn" data-view="fly" id="menu-fly"><i class="fa fa-plane"></i> 飞行视角</div>
+                            <div class="view-btn" data-view="first" id="menu-first"><i class="fa fa-user"></i> 第一人称</div>
+                        </div>
+                    </li>
+                    <li class="menu-item" id="menu-detail"><i class="fa fa-search"></i> 细节展示</li>
+                </ul>
+            </div>
+            <div class="menu-section">
+                <div class="menu-title"><i class="fa fa-wrench"></i> 分析工具</div>
+                <ul>
+                   <!-- 危险物检测 -->
+               <!-- 危险物检测 -->
+<li class="menu-item" id="menu-danger" style="position:relative;">
+    <i class="fa fa-warning"></i> 危险物检测
+    <i class="fa fa-angle-down" id="menu-danger-arrow" style="position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#87CEEB;"></i>
+    <div class="view-submenu" id="danger-submenu" style="display:none;">
+                        <div class="view-btn" data-danger="tree" id="danger-tree">
+                            <i class="fa fa-tree"></i> 树障检测
+                        </div>
+                        <div class="view-btn" data-danger="vehicle" id="danger-vehicle">
+                            <i class="fa fa-truck"></i> 特种车辆检测
+                        </div>
+                        <div class="view-btn" data-danger="house" id="danger-house">
+                            <i class="fa fa-home"></i> 建筑物检测
+                        </div>
+                        <div class="view-btn" data-danger="wire" id="danger-bird">
+                            <i class="fa fa-link"></i> 挂线检测
+                        </div>
+                    </div>
+                </li>
+                    <!-- 距离测量（带下拉） -->
+                    <li class="menu-item" id="menu-distance" style="position:relative;">
+    <i class="fa fa-arrows-h"></i> 距离测量
+    <i class="fa fa-angle-down" id="menu-distance-arrow" style="position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#87CEEB;"></i>
+    <div class="view-submenu" id="distance-submenu" style="display:none;">
+                            <div class="view-btn" id="distance-auto" style="border-radius: 12px 12px 0 0;">
+                                <i class="fa fa-magic"></i> 自动检测
+                            </div>
+                            <div class="view-btn" id="distance-manual" style="border-radius: 0 0 12px 12px;">
+                                <i class="fa fa-arrows-h"></i> 手动测距
+                            </div>
+                        </div>
+                    </li>
+                    <li class="menu-item" data-tool="analysis"><i class="fa fa-pie-chart"></i> 数据分析</li>
+                    <li class="menu-item" id="generate-report-btn" data-tool="report"><i class="fa fa-file-text-o"></i> 生成分析报告</li>
+                     <li class="menu-item" id="menu-weather" style="position:relative;">
+    <i class="fa fa-cloud"></i> 天气模拟
+    <i class="fa fa-angle-down" id="menu-weather-arrow" style="position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#87CEEB;"></i>
+    <div class="view-submenu" id="weather-submenu" style="display:none;">
+    <div class="view-btn" style="justify-content:space-between;">
+        <span><i class="fa fa-cloud"></i> 雨天场景</span>
+        <label class="switch">
+            <input type="checkbox" id="rain-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="view-btn" style="justify-content:space-between;">
+        <span><i class="fa fa-snowflake-o"></i> 雪天场景</span>
+        <label class="switch">
+            <input type="checkbox" id="snow-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="view-btn" style="justify-content:space-between;">
+        <span><i class="fa fa-fire"></i> 高温场景</span>
+        <label class="switch">
+            <input type="checkbox" id="hot-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+</div>
+<li class="menu-item" id="sag-analysis-btn" style="position:relative;">
+    <i class="fa fa-area-chart"></i> 弧垂分析
+</li>
+<li class="menu-item" id="wind-amplitude-analysis-btn" style="position:relative;">
+    <i class="fa fa-random"></i> 舞动幅度分析
+</li>
+        </li>
+                </ul>
+            </div>
+            <div class="menu-section">
+                <div class="menu-title"><i class="fa fa-cogs"></i> 系统设置</div>
+                <ul>
+                    <li class="menu-item" data-page="help"><i class="fa fa-question-circle"></i> 帮助文档</li>
+                    <li class="menu-item" id="menu-system-toggle">
+                        <i class="fa fa-sliders"></i> 系统设置
+                        <i class="fa fa-angle-down" id="menu-system-arrow" style="position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#87CEEB;"></i>
+                    </li>
+                    <ul class="system-submenu" id="system-submenu" style="display:none;">
+                        <li>
+                            <span><i class="fa fa-tint"></i> 色彩模式</span>
+                            <label class="switch">
+                                <input type="checkbox" id="toggle-color">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        <li>
+                            <span><i class="fa fa-th"></i> 网格线</span>
+                            <label class="switch">
+                                <input type="checkbox" id="toggle-grid">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        
+                    </ul>
+                </ul>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <span style="font-size:12px;color:#bbb;">@吉祥三宝荣誉出品</span>
+        </div>
+    </aside>
+    <!-- 右侧主内容 -->
+    <main class="main-content">
+        <div class="main-top">
+            <div class="main-card">
+                <!-- three-container 内部 -->
+                <div id="three-container" class="three-container">
+                    <!-- ...three.js canvas... -->
+                    <div id="detail-arrows" style="display: none;">
+                        <img id="arrow-left" class="detail-arrow" src="arrow-right.png" alt="left" style="width:64px;height:64px;transform:scaleX(-1);opacity:0.7;pointer-events:auto;cursor:pointer;">
+                        <img id="arrow-right" class="detail-arrow" src="arrow-right.png" alt="right" style="width:64px;height:64px;opacity:0.7;pointer-events:auto;cursor:pointer;">
+                    </div>
+                    
+ <button id="danger-clear-btn" style="display:none; position:absolute; right:24px; bottom:24px; z-index:1001; padding:10px 28px; background:#e74c3c; color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:bold; box-shadow:0 2px 8px #e74c3c44;">
+        结束检测
+    </button>
+                </div>
+                <!-- three-container 放大镜和关闭按钮 -->
+                <div id="fullscreen-btn" title="全屏查看" style="position:absolute;right:18px;top:18px;z-index:20;cursor:pointer;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.92);border-radius:50%;box-shadow:0 2px 8px #87ceeb33;">
+                    <i class="fa fa-search-plus" style="font-size:22px;color:#1a6fa7;"></i>
+                </div>
+                <div id="fullscreen-exit" title="退出全屏" style="position:fixed;top:32px;right:38px;z-index:9999;display:none;width:38px;height:38px;align-items:center;justify-content:center;background:rgba(255,255,255,0.92);border-radius:50%;box-shadow:0 2px 8px #87ceeb33;cursor:pointer;">
+                    <i class="fa fa-close" style="font-size:22px;color:#3c42e7;"></i>
+                </div>
+                <div id="loading" class="loading-main">⏳ 正在加载点云数据...</div>
+                <!-- 自动巡航按钮放这里 -->
+                <button id="auto-cruise-btn" class="auto-cruise-center">
+                    <i class="fa fa-play"></i>
+                    <span class="cruise-text">自动巡航</span>
+                </button>            <!-- three-container 外部，main-card 内部 -->
+            
+            </div>
+        </div>
+        <div class="main-bottom">
+            <!-- 信息显示器1：全局统计/潜在危险物（动态切换） -->
+<section class="info-card" id="global-info">
+    <!-- 全局统计内容，默认显示 -->
+    <div class="info-title" id="global-info-title">
+        <span><i class="fa fa-bar-chart"></i> 全局统计</span>
+    </div>
+    <div class="info-content global-info-content" id="global-info-content">
+        <div>
+            <span>电力塔数量：</span><span id="tower-count">-</span>
+        </div>
+        <div>
+            <span>电力塔平均高度：</span><span id="tower-avg-height">-</span> m
+        </div>
+        <div>
+            <span>电力线数量：</span><span id="line-count">-</span>
+        </div>
+        <div>
+            <span>电力线平均高度：</span><span id="line-avg-height">-</span> m
+        </div>
+    </div>
+    <!-- 潜在危险物内容，默认隐藏 -->
+    <div class="info-title" id="danger-info-title" style="display:none;">
+        <span><i class="fa fa-exclamation-triangle"></i> 潜在危险物</span>
+    </div>
+    <div class="info-content" id="danger-info-content" style="display:none;">
+        <span id="danger-info-text"></span>
+    </div>
+   <!-- 小视角展示框，默认隐藏，危险物检测时显示 -->
+<div id="danger-mini-view" style="display:none; position:absolute; right:25px; top:18px; width:120px; height:160px; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px #87ceeb55; background:#101828;">
+    <img id="danger-mini-image" src="" alt="危险物预览" style="width:100%; height:100%; object-fit:cover;">
+</div>
+<!-- 在全局统计卡片内添加 -->
+<div id="global-mini-view" style="display:block; position:absolute; right:25px; top:18px; width:120px; height:160px; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px #87ceeb55; background:#101828;">
+    <img id="global-mini-image" src="tower.png" alt="电力塔预览" style="width:100%; height:100%; object-fit:cover;">
+</div>
+</section>
+            <!-- 信息显示器2：选中线信息 -->
+            <section class="info-card" id="line-info">
+                <div class="info-title"><i class="fa fa-info-circle"></i> 电力线信息</div>
+                <div class="info-content" id="selected-line-info">
+                    <div>线ID：<span id="line-id">-</span></div>
+                    <div>高度：<span id="line-height">-</span> m</div>
+                    <div>长度：<span id="line-length">-</span> m</div>
+                    <div>直径：<span id="line-diameter">-</span>mm</div>
+                    <div>弧垂度：<span id="line-sag">-</span> m</div>
+                    <div>张力：<span id="line-tension">-</span> kN</div>
+                    <div id="line-remark-btn" title="添加备注" style="position:absolute;right:18px;bottom:12px;cursor:pointer;">
+  <i class="fa fa-pencil-square-o" style="font-size:22px;color:#2196f3;opacity:0.8;"></i>
+</div>
+                </div>
+            </section>
+            <!-- 信息显示器3：风险评估 -->
+            <section class="info-card" id="risk-info">
+                <div class="info-title"><i class="fa fa-shield"></i> 风险评估</div>
+                <div class="info-content risk-flex">
+                    <div class="risk-result-panel" style="align-items:flex-start;">
+                        <div id="risk-result" class="risk-value" style="text-align:left;">-</div>
+                    </div>
+                    <canvas id="risk-gauge" width="180" height="180"></canvas>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+<!-- tooltip -->
+<div id="tooltip" class="tooltip-content"></div>
+<!-- 加载提示 -->
+
+<canvas id="fixed-risk-gauge" width="180" height="180" style="position:fixed;right:40px;bottom:40px;z-index:9999;"></canvas>
+
+<!-- 主视区上方基础信息栏 -->
+<!-- 修改顶部信息栏结构 -->
+<div id="top-bar" class="status-bar">
+    <div class="top-bar-left">
+        <i class="fa fa-calendar"></i>
+        <span id="current-date">-</span>
+        <span class="divider"></span>
+          <i class="fa fa-clock-o"></i>
+        <span id="current-time">-</span>
+        <span id="weather-status-bar" style="display:none;align-items:center;gap:10px;"></span>
+    </div>
+    <div class="top-bar-right">
+        <!-- 新增：数据集切换器 -->
+        <button id="prev-dataset-btn" class="dataset-switch-btn" title="上一个区域"><i class="fa fa-chevron-left"></i></button>
+        <span id="dataset-name-display">-</span>
+        <button id="next-dataset-btn" class="dataset-switch-btn" title="下一个区域"><i class="fa fa-chevron-right"></i></button>
+        <span class="divider"></span>
+        <!-- 原有内容 -->
+        <span id="scene-title">  
+            <i class="fa fa-binoculars"></i>
+            <span id="status-text">全景浏览</span>
+        </span>
+    </div>
+</div>
+
+<script type="module" src="./main.js"></script>
+<!-- 帮助文档弹窗 -->
+<div id="help-modal" class="help-modal" style="display:none;">
+  <div class="help-modal-content">
+    <span class="help-modal-close" id="help-modal-close" title="关闭">×</span>
+    <h2>帮助文档</h2>
+    <section>
+      <h3>项目简介</h3>
+      <p>本平台基于三维点云数据，实现电力线与电力塔的可视化、分析与风险评估，助力电力巡检与运维。因数据库搭建在了本地主机上，在测试阶段不保证全天正常工作</p>
+    </section>
+    <section>
+      <h3>主要功能</h3>
+      <ul>
+        <li>全景浏览：三维场景自由旋转、缩放、漫游。</li>
+        <li>视角切换：支持上帝视角、飞行视角、第一人称视角。</li>
+        <li>细节展示：聚焦电力线/塔的详细属性。</li>
+        <li>危险物检测：自动识别树障、特种车辆、建筑物、挂线等风险。</li>
+        <li>距离测量：支持自动与手动测量电力线间距。</li>
+        <li>数据分析与报告：统计全局信息，生成分析报告。</li>
+        <li>系统设置：切换深浅色模式、显示/隐藏网格线。</li>
+      </ul>
+    </section>
+    <section>
+      <h3>操作指南</h3>
+      <ul>
+        <li>左侧菜单切换不同功能，点击“帮助文档”可随时查看本说明。</li>
+        <li>主视图区可用鼠标拖拽旋转，滚轮缩放，右键漫游。</li>
+        <li>点击“视角切换”可选择不同视角模式。</li>
+        <li>危险物检测、距离测量等工具支持下拉选择具体子功能。</li>
+        <li>右上角可切换全屏，底部信息卡展示统计与风险评估。</li>
+        <li>系统设置支持色彩模式与网格线开关。</li>
+      </ul>
+    </section>
+    <section>
+      <h3>常见问题</h3>
+      <ul>
+        <li><b>Q:</b> 页面卡顿或加载慢？<br><b>A:</b> 建议使用现代浏览器，确保网络畅通，数据量大时请耐心等待。</li>
+        <li><b>Q:</b> 点云未显示或显示异常？<br><b>A:</b> 检查数据文件是否完整，尝试刷新页面。</li>
+        <li><b>Q:</b> 如何切换深浅色模式？<br><b>A:</b> 在“系统设置”中切换“色彩模式”开关。</li>
+        <li><b>Q:</b> 其他问题？<br><b>A:</b> 请联系开发团队。</li>
+      </ul>
+    </section>
+    <section>
+      <h3>联系方式</h3>
+      <p>如有疑问或建议，请联系：<br>邮箱：support@lidar-platform.com</p>
+    </section>
+  </div>
+</div>
+<div id="line-remark-modal" class="help-modal" style="display:none;">
+  <div class="help-modal-content" style="max-width:320px;min-width:220px;padding:22px 18px 18px 18px;">
+    <span class="help-modal-close" id="line-remark-close" title="关闭">×</span>
+    <h3 style="margin-top:0;">电力线备注</h3>
+    <div style="margin-bottom:12px;">
+      <label style="font-weight:bold;">线ID：</label>
+      <span id="remark-line-id" style="color:#2196f3;"></span>
+    </div>
+    <div style="margin-bottom:18px;">
+      <label style="font-weight:bold;">备注：</label>
+      <textarea id="remark-input" style="width:100%;height:70px;resize:vertical;border-radius:6px;border:1px solid #b0e0ff;padding:6px;font-size:1em;"></textarea>
+    </div>
+    <div style="text-align:right;">
+      <button id="remark-save-btn" style="padding:6px 18px;background:#2196f3;color:#fff;border:none;border-radius:6px;margin-right:10px;cursor:pointer;">保存</button>
+      <button id="remark-cancel-btn" style="padding:6px 18px;background:#eee;color:#333;border:none;border-radius:6px;cursor:pointer;">关闭</button>
+    </div>
+  </div>
+</div>
+</div>
+<div id="measure-popup">
+    <span id="measure-result"></span>
+    <span id="measure-close" style="position:absolute;top:8px;right:12px;cursor:pointer;font-size:18px;color:#e74c3c;">×</span>
+</div>
+<!-- 危险物检测规则弹窗 -->
+<div id="danger-rule-modal" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:99999;background:rgba(0,0,0,0.18);">
+  <div id="danger-rule-content" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,40,60,0.98);color:#87CEEB;padding:32px 38px 24px 38px;border-radius:14px;box-shadow:0 4px 24px #3ecbff88,0 2px 8px #0008;min-width:320px;max-width:90vw;max-height:80vh;overflow:auto;">
+    <div style="font-weight:bold;font-size:1.2em;margin-bottom:12px;" id="danger-rule-title"></div>
+    <div id="danger-rule-list"></div>
+    <span id="danger-rule-close" style="position:absolute;top:12px;right:18px;cursor:pointer;font-size:22px;color:#e74c3c;">×</span>
+  </div>
+</div>
+<!-- 弧垂分析弹窗 -->
+<div id="sag-analysis-modal" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:99999;background:rgba(0,0,0,0.18);">
+  <div id="sag-analysis-content" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,40,60,0.98);color:#87CEEB;padding:32px 38px 24px 38px;border-radius:14px;box-shadow:0 4px 24px #3ecbff88,0 2px 8px #0008;min-width:320px;max-width:90vw;max-height:80vh;overflow:auto;">
+    <div style="font-weight:bold;font-size:1.2em;margin-bottom:12px;" id="sag-analysis-title"></div>
+    <div id="sag-analysis-body"></div>
+    <span id="sag-analysis-close" style="position:absolute;top:12px;right:18px;cursor:pointer;font-size:22px;color:#e74c3c;">×</span>
+  </div>
+</div>
+<div id="joystick-container">
+    <div id="joystick-bg">
+      <div id="joystick-dot"></div>
+    </div>
+  </div>
+</body>
+</html>
+
+<!-- 报告二维码弹窗 -->
+<div id="report-qrcode-modal" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:99999;background:rgba(0,0,0,0.18);">
+  <div id="report-qrcode-content" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#e3f2fd;color:#2196f3;padding:32px 38px 24px 38px;border-radius:14px;box-shadow:0 4px 24px #3ecbff88,0 2px 8px #0008;min-width:320px;max-width:90vw;max-height:80vh;overflow:auto;display:flex;flex-direction:column;align-items:center;">
+    <div style="font-weight:bold;font-size:1.2em;margin-bottom:12px;">PDF报告二维码</div>
+    <!-- 用img显示静态二维码图片 -->
+    <img id="report-qrcode-img" src="qrcode.png" alt="PDF报告二维码" style="width:256px;height:256px;background:#fff;border-radius:12px;margin-bottom:18px;">
+    <button id="download-qrcode-btn" style="margin-bottom:12px;padding:8px 24px;background:#2196f3;color:#fff;border:none;border-radius:8px;cursor:pointer;">下载二维码图片</button>
+    <div style="color:#2196f3;font-size:1em;margin-bottom:8px;">请使用浏览器扫码查看报告</div>
+    <span id="report-qrcode-close" style="position:absolute;top:12px;right:18px;cursor:pointer;font-size:22px;color:#e74c3c;">×</span>
+  </div>
+</div>
+<!-- 隐藏div用于生成二维码 -->
+<div id="hidden-qrcode-div" style="display:none;"></div>
+
+
+<!-- 分析报告弹窗 -->
+<div id="report-modal" class="report-modal">
+    <div class="report-modal-content">
+        <div class="report-header">
+            <h3>电力线路危险物分析报告</h3>
+            <span class="report-close" id="report-close">&times;</span>
+        </div>
+        <!-- 危险物统计表格 -->
+        <div class="report-section">
+            <h4>各区域危险物风险等级统计</h4>
+            <table id="risk-statistics-table">
+                <thead>
+                    <tr>
+                        <th>区域</th>
+                        <th>类型</th>
+                        <th>紧急（0-5.5m）</th>
+                        <th>一般（5.5-10m）</th>
+                        <th>安全（>10m）</th>
+                    </tr>
+                </thead>
+                <tbody id="risk-statistics-body"></tbody>
+            </table>
+        </div>
+        <!-- 紧急/一般危险物详情表格 -->
+        <div class="report-section">
+            <h4>待处理危险物详情</h4>
+            <table id="danger-details-table">
+                <thead>
+                    <tr>
+                        <th>区域</th>
+                        <th>类型</th>
+                        <th>坐标</th>
+                        <th>距离电力线（m）</th>
+                        <th>风险等级</th>
+                    </tr>
+                </thead>
+                <tbody id="danger-details-body"></tbody>
+            </table>
+        </div>
+        <div class="report-actions">
+            <button id="send-report-btn" class="report-action-btn">生成报告二维码</button>
+            <button id="export-report-btn" class="report-action-btn">导出Word报告</button>
+        </div>
+        <div id="report-loading" style="display:none;text-align:center;padding:32px 0;">
+    <i class="fa fa-spinner fa-spin" style="font-size:2em;color:#2196f3;"></i>
+    <div style="margin-top:12px;color:#2196f3;">正在分析所有区域危险物，请稍候...</div>
+</div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<!-- 新建文件: report-view.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>分析报告查看</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #e3f2fd;
+      color: #2196f3;
+      font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+      margin: 0; padding: 0;
+    }
+    .report-container {
+      max-width: 800px;
+      margin: 32px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px #3ecbff55, 0 2px 8px #0008;
+      padding: 32px 24px;
+    }
+    h2, h3, h4 { color: #2196f3; }
+    table { width: 100%; border-collapse: collapse; margin: 18px 0; }
+    th, td { border: 1px solid #b0e0ff; padding: 8px 10px; }
+    th { background: #e3f2fd; }
+    @media (max-width: 600px) {
+      .report-container { padding: 10px; }
+      table, th, td { font-size: 0.95em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="report-container" id="report-content">
+    <h2>电力线路危险物分析报告</h2>
+    <div id="report-html"></div>
+  </div>
+    <script>
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+    const reportId = getQueryParam('id');
+    if (reportId) {
+
+    } else {
+        document.getElementById('report-html').innerHTML = '<div style="color:#e74c3c;">未获取到报告内容</div>';
+    }
+    </script>
+</body>
+</html>
