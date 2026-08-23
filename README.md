@@ -28,10 +28,17 @@
 
 ## 🎬 功能演示
 
-<!-- 在这里放录屏 GIF，直接拖拽图片到 GitHub 编辑框即可 -->
-<!-- 建议录：三维模型旋转 → 点云加载 → 危险物检测高亮 → 测距工具 -->
+![数据分析2](./assets/Data%20Analysis%202%20%5B00h00m00s%E2%80%9300h00m15s%5D.gif)
+> 电力三维场景多维度数据面板交互
 
-![功能演示](docs/demo.gif)
+![详细分析](./assets/Detailed%20Analysis%20%5B00h00m00s%E2%80%9300h00m05s%5D.gif)
+> 电力设备单要素指标详情解析
+
+![手动距离测量](./assets/Manual%20distance%20measurement%20%5B00h00m00s%E2%80%9300h00m08s%5D.gif)
+> 三维场景手动测距，导线‑障碍物距离量测
+
+![风险预警展示](./assets/Risk%20Disclosure%20%5B00h00m00s%E2%80%9300h00m08s%5D.gif)
+> 电力线路隐患识别、风险告警弹窗展示
 
 ## 📸 项目截图
 
