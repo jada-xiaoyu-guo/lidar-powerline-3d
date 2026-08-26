@@ -29,9 +29,14 @@
 ## 🎬 功能动态演示
 
 <video width="860" controls>
-  <source src="./assets/天气模拟弧垂分析2_20260826_21561442.mp4" type="video/mp4">
+  <source src="./assets/天气模拟弧垂分析2_20260826_21561442_20260826_22160203.mp4" type="video/mp4">
 </video>
 > 气象条件下电力线弧垂仿真分析，三维场景联动数据面板实时展示
+
+<video width="860" controls>
+  <source src="./assets/手动测距_20260826_22162633_20260826_22174394.mp4" type="video/mp4">
+</video>
+> 三维场景手动测距工具，导线与障碍物距离精准量测
 
 ## 📸 项目页面展示
 
@@ -48,7 +53,7 @@
 ## 🎥 完整项目宣传片
 
 <video width="860" controls>
-  <source src="./assets/宣传片_20260826_22045820.mp4" type="video/mp4">
+  <source src="./assets/宣传片_20260826_22045820_20260826_22150514.mp4" type="video/mp4">
 </video>
 > 项目全功能完整展示宣传片
 
